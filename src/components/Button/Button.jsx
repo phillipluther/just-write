@@ -10,7 +10,7 @@ export default class Button extends Component {
 
     static propTypes = {
         className: PropTypes.string,
-        children: PropTypes.arrayOf(PropTypes.node),
+        children: PropTypes.node,
         disabled: PropTypes.bool,
         onBlur: PropTypes.func,
         onClick: PropTypes.func.isRequired,

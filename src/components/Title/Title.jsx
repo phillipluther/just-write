@@ -9,7 +9,7 @@ import styles from './Title.css';
 export default class Title extends Component {
 
     static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.node),
+        children: PropTypes.node,
         className: PropTypes.string,
         text: PropTypes.string,
     };

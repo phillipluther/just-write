@@ -4,6 +4,8 @@ const commonConfig = require('./webpack.common');
 
 
 module.exports = webpackMerge(commonConfig, {
+    devtool: 'eval',
+
     entry: [
         'webpack-hot-middleware/client'
     ],

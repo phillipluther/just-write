@@ -5,6 +5,8 @@ import classnames from 'classnames';
 import Header from 'Components/Header';
 import Notice from 'Components/Notice';
 import Dashboard from './Dashboard';
+import Page from './Page';
+import Pages from './Pages';
 import Tag from './Tag';
 import Tags from './Tags';
 
@@ -63,7 +65,12 @@ export default class App extends Component {
         };
 
         this.setState({notice});
-        setTimeout(() => this.clearUserNotice(), 10000);
+
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+
+        this.timeout = setTimeout(() => this.clearUserNotice(), 10000);
     }
 
     render() {
@@ -85,6 +92,8 @@ export default class App extends Component {
                         <Route exact path="/" component={Dashboard} />
                         <Route exact path="/tags" component={Tags} />
                         <Route path="/tag/:tagId" render={() => this.provideNotifications(Tag)} />
+                        <Route path="/page/:pageId" render={() => this.provideNotifications(Page)} />
+                        <Route path="/pages" component={Pages} />
                     </main>
                 </div>
             </BrowserRouter>
