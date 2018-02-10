@@ -1,0 +1,26 @@
+@import './coreStyles/reset.css';
+@import './coreStyles/typography.css';
+@import './coreStyles/tables.css';
+@import './coreStyles/forms.css';
+
+html,
+body {
+	background-color: #f9fffc;
+}
+
+* { box-sizing: border-box; }
+
+a:focus,
+button:focus { outline: none; }
+button::-moz-focus-inner { border: 0; }
+
+a {
+	text-decoration: none;
+	color: #127834;
+}
+
+a:hover,
+:global(.a11y--active) a:focus {
+	text-decoration: underline;
+	color: #292f2c;
+}

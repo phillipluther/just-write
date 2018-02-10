@@ -1,0 +1,26 @@
+input[type="text"],
+textarea {
+    margin-bottom: 1.563rem;
+    padding: 1rem 1rem 0.8rem;
+    font: inherit;
+    border: 1px solid #c9cfcc;
+    border-bottom: 2px solid #999f9c;
+    width: 100%;
+    transition: border-color 270ms;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #126734;
+}
+
+textarea {
+    resize: none;
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #696f6c;
+}

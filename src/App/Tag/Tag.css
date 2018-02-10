@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.title {
+
+}
+
+.details {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.action {
+
+}

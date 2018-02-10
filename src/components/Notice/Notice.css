@@ -1,0 +1,36 @@
+.wrapper {
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.notice {
+    padding: 20px;
+}
+
+.confirmation {
+    background: #e0f9e0;
+    color: #004900;
+}
+
+.error {
+    background: #f9e0e0;
+    color: #490000;
+}
+
+.warning {
+    background: #f9f9e0;
+    color: #494900;
+}
+
+
+@media (min-width: 640px) {
+    .notice {
+        padding: 30px;
+    }
+}
+
+@media (min-width: 1080px) {
+    .notice {
+        padding: 30px 40px;
+    }
+}
