@@ -1,11 +1,25 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import classnames from 'classnames';
 import {Link} from 'react-router-dom';
 import Title from 'Components/Title';
+import Table from 'Components/Table';
 
 import styles from './Tags.css';
 
+const TABLE_HEADERS = [
+    {
+        key: 'name',
+        label: 'Name',
+    },
+    {
+        key: 'slug',
+        label: 'Slug',
+    },
+    {
+        key: 'description',
+        label: 'Description',
+    }
+];
 
 export default class Tags extends Component {
 
@@ -54,62 +68,11 @@ export default class Tags extends Component {
         );
     }
 
-    renderTag = (tag, index) => {
-        let key = `${tag.name}-${index}`;
-        let rowClasses = classnames(
-            styles.tag,
-            {
-                [styles.even]: index % 2 === 0,
-                [styles.odd]: index % 2 === 1,
-            }
-        );
-
-        return (
-            <tr className={rowClasses} key={key}>
-                <td className={styles.tagName}>
-                    {tag.name}
-                </td>
-                <td className={styles.tagSlug}>
-                    {tag.slug}
-                </td>
-                <td className={styles.tagDescription}>
-                    {tag.description}
-                </td>
-                <td className={styles.tagActions}>
-                    <Link to={`/tag/${tag.id}`} className={styles.tagLink}>
-                        Edit
-                    </Link>
-                </td>
-            </tr>
-        );
-    }
-
     renderActions = () => {
         return (
             <div className={styles.actions} key="tagActions">
                 {this.renderNewTagButton()}
             </div>
-        );
-    }
-
-    renderTags = (tags) => {
-        return (
-            <table className={styles.tags} key="tagListing">
-                <thead>
-                    <tr className={styles.tagsHeader}>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Description</th>
-                        <th>
-                            <span className="sr">Actions</span>
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {tags.map(this.renderTag)}
-                </tbody>
-            </table>
         );
     }
 
@@ -122,7 +85,13 @@ export default class Tags extends Component {
                 this.renderTagIntro() :
                 [
                     this.renderActions(),
-                    this.renderTags(tags)
+                    <Table
+                        className={styles.listing}
+                        data={tags}
+                        headers={TABLE_HEADERS}
+                        key="tableListings"
+                        apiRoot="tag"
+                    />
                 ];
         }
 

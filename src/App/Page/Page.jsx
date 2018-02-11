@@ -21,7 +21,7 @@ class Page extends Component {
         }),
         match: PropTypes.shape({
             params: PropTypes.shape({
-                tagId: PropTypes.string,
+                pageId: PropTypes.string,
             }),
         })
     }
@@ -35,6 +35,7 @@ class Page extends Component {
         isChanged: false,
         isLoaded: false,
         isNew: false,
+        notFound: false,
     }
 
     componentDidMount() {
@@ -55,15 +56,23 @@ class Page extends Component {
                         page: data,
                     });
                 })
-                .catch(() => {
-                    this.props.notify(
-                        'error',
-                        'Could not retrieve page information. Try refreshing the page.'
-                    );
+                .catch(({response}) => {
+                    if (response.status === 404) {
+                        this.setState({
+                            isLoaded: true,
+                            notFound: true,
+                        });
 
-                    this.setState({
-                        isLoaded: true,
-                    });
+                    } else {
+                        this.props.notify(
+                            'error',
+                            'Could not retrieve page information. Try refreshing the page.'
+                        );
+
+                        this.setState({
+                            isLoaded: true,
+                        });
+                    }
                 });
         }
     }
@@ -100,7 +109,17 @@ class Page extends Component {
     })
 
     updatePage = (id, pageData) => {
-
+        axios.put(`/api/page/${id}`, pageData)
+            .then(() => {
+                this.props.notify('confirmation', 'Page updated.');
+                this.props.history.push('/pages');
+            })
+            .catch(({response}) => {
+                this.props.notify(
+                    'error',
+                    `Could not update page. ${response.data}.`
+                );
+            });
     }
 
     createPage = (pageData) => {
@@ -113,6 +132,21 @@ class Page extends Component {
                 this.props.notify(
                     'error',
                     `Could not create page. ${response.data}.`
+                );
+            });
+    }
+
+    handleDelete = () => {
+        let {pageId} = this.props.match.params;
+        axios.delete(`/api/page/${pageId}`)
+            .then(() => {
+                this.props.notify('confirmation', 'Page deleted.');
+                this.props.history.push('/pages');
+            })
+            .catch(({response}) => {
+                this.props.notify(
+                    'error',
+                    `Could not delete page. ${response.data}.`
                 );
             });
     }
@@ -211,14 +245,20 @@ class Page extends Component {
     }
 
     render() {
-        let {isLoaded, isNew} = this.state;
+        let {isLoaded, isNew, notFound} = this.state;
         let title = (isNew) ? 'Create a New Page' : 'Edit Page';
         let content = null;
 
         if (isLoaded) {
+            let contentBody = (notFound) ?
+                <p className={styles.notFound}>
+                    Page ID {this.props.match.params.pageId} was not found.
+                </p> :
+                this.renderForm();
+
             content = (
                 <div className={styles.details}>
-                    {this.renderForm()}
+                    {contentBody}
                 </div>
             );
         }

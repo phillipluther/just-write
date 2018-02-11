@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import toCamelCase from 'Utils/toCamelCase';
+import {Link} from 'react-router-dom';
 
 import styles from './Table.css';
 
@@ -10,47 +10,24 @@ export default class Table extends Component {
 
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object).isRequired,
-        order: PropTypes.arrayOf(PropTypes.string),
-    }
-
-    static defaultProps = {
-        order: [],
-    }
-
-    state = {
-        headers: [],
-    }
-
-    constructor(props) {
-        super(props);
-
-        // if an order is not explicitly provided, build our headers array. we
-        // check every object (eep!) in the event some of them have fewer/more
-        // fields than others ... not assuming they're all the same
-        if (props.order.length === 0) {
-            props.data.forEach(obj => {
-                Object.keys(obj).forEach(key => {
-                    if (this.state.headers.indexOf(key) === -1) {
-                        this.state.headers.push(key);
-                    }
-                });
-            });
-
-        } else {
-            this.state.headers = props.order;
-        }
+        headers: PropTypes.arrayOf(PropTypes.shape({
+            label: PropTypes.string,
+            key: PropTypes.string,
+        })).isRequired,
+        apiRoot: PropTypes.oneOf(['page', 'tag']).isRequired,
     }
 
     renderHeader = (header, index) => {
-        let hook = toCamelCase(header);
+        let {label, key} = header;
+        //let hook = toCamelCase(header);
         let headerClasses = classnames(
             styles.header,
-            `th-${hook}`, // custom class hook on header
+            `th-${key}`, // custom class hook on header
         );
 
         return (
-            <th className={headerClasses} key={hook + index}>
-                {header}
+            <th className={headerClasses} key={key + index}>
+                {label}
             </th>
         );
     }
@@ -58,7 +35,10 @@ export default class Table extends Component {
     renderHead = () => (
         <thead className={styles.head}>
             <tr className={styles.headers}>
-                {this.state.headers.map(this.renderHeader)}
+                {this.props.headers.map(this.renderHeader)}
+                <th>
+                    <span className="sr">Actions</span>
+                </th>
             </tr>
         </thead>
     );
@@ -66,21 +46,36 @@ export default class Table extends Component {
     renderRow = (data, index) => {
         let rowData = [];
 
-        this.state.headers.forEach((header, i) => {
-            let hook = toCamelCase(header);
-            let key = `${hook}-row${index}-${i}`;
+        this.props.headers.forEach((header, i) => {
+            let {key} = header;
+            let rowKey = `${key}-row${index}-${i}`;
 
             let cellClasses = classnames(
                 styles.cell,
-                `td-${hook}`,
+                `td-${key}`,
             );
 
             rowData.push(
-                <td className={cellClasses} key={key}>
-                    {data[header]}
+                <td className={cellClasses} key={rowKey}>
+                    {data[key]}
                 </td>
             );
         });
+
+        // push our Edit link
+        let editClasses = classnames(
+            styles.cell,
+            styles.editCell,
+        );
+
+        let apiLink = `/${this.props.apiRoot}/${data.id}`;
+        rowData.push(
+            <td className={editClasses} key={`edit-${index}`}>
+                <Link to={apiLink} className={styles.editLink}>
+                    Edit
+                </Link>
+            </td>
+        );
 
         return (
             <tr className={styles.row} key={`tr-${index}`}>

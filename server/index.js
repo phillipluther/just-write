@@ -28,13 +28,14 @@ app.use('/api', endpointRouter());
 
 // webpack middleware
 app.use(require('webpack-dev-middleware')(compiler, {
+    index: 'index.html',
     publicPath: webpackConfig.output.publicPath,
 }));
 app.use(require('webpack-hot-middleware')(compiler));
 
 
 // anything not handled by the API, send through index.html
-app.use('*', (req, res) => {
+app.use('/*', (req, res) => {
     let index = path.join(PUBLIC_DIR, 'index.html');
     res.sendFile(index);
 });

@@ -35,3 +35,7 @@
 .cell:last-child {
     border-right: 1px solid #c9cfcc;
 }
+
+.editCell {
+    text-align: center;
+}

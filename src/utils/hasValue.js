@@ -7,7 +7,7 @@ export default (val) => {
         return false;
     }
 
-    if ((typeof val === 'number') && isNan(val)) {
+    if ((typeof val === 'number') && isNaN(val)) {
         return false;
     }
 
@@ -16,4 +16,4 @@ export default (val) => {
     }
 
     return true;
-}
+};
