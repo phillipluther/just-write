@@ -1,0 +1,17 @@
+{
+  "name": "just-write-api-adapter-markdown",
+  "version": "0.1.0",
+  "description": "@justwrite/api-adapter-markdown",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Phillip Luther <dev@phillipluther.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "just-write",
+  "version": "0.1.0",
+  "description": "@justwrite monorepo",
+  "main": "index.js",
+  "workspaces": [
+    "./packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Phillip Luther <dev@phillipluther.com>",
+  "license": "ISC"
+}
