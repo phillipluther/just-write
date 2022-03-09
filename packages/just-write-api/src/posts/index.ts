@@ -1,5 +1,5 @@
 import getPosts from './get-all-posts';
-import getPost from './get-post';
+import getPost from './read-posts';
 
 const create = async () => {
   console.log('CREATE');
