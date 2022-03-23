@@ -5,4 +5,9 @@ interface ReadResponse<DataObj> {
   data: DataObj[];
 }
 
-export { ReadResponse };
+interface ReadRequestOptions {
+  limit: number;
+  cursor: number;
+}
+
+export { ReadResponse, ReadRequestOptions };

@@ -26,10 +26,7 @@ Just Write posts look like this:
     '2345bcde',
     '3456cdef',
   ], // array of Tag object GUIDs
-  content: {
-    raw: '#Fake Markdown',
-    parsed: '<h1>Fake Markdown</h1>',
-  },
+  content: '<h1>My content!</h1>,
   metadata: {
     something: 'Any key/val pair describing the post object',
     usage: 'Great for user-specific use cases',
