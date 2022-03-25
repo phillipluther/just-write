@@ -5,10 +5,11 @@ type Post = {
   title: string;
   summary?: string;
   published: string;
-  image?: string;
   updated?: string[];
+  image?: string;
   tags?: string[];
   content: string;
+  slug?: string;
   metadata?: {
     [key: string]: any;
   };

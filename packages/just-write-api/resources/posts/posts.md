@@ -13,6 +13,7 @@ Just Write posts look like this:
 {
   id: 'abcdefg123456', // GUID
   title: 'This is a Post',
+  slugs: 'this-posts-slug',
   summary: 'This is a quick way of summarizing the post; it should be SEO-friendly.',
   published: '2022-03-08T22:21:22.142Z', // platform-independent format
   image: '1234-reference-to-asset-id-4321', // ID of an image asset
