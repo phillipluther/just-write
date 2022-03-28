@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { readPost, getAllPosts, createPost, updatePost, deletePost } from './controllers';
 
 const router = Router();

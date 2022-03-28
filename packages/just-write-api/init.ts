@@ -1,3 +1,4 @@
+import { ServerOptions } from './__types__';
 import createServer from './create-server';
 import loadAdapter from './load-adapter';
 
@@ -9,9 +10,8 @@ const defaultOptions = {
 
 export default async function init(userOptions = {}) {
   try {
-    const { default: contentAdapter } = await loadAdapter();
-
-    const options = { ...defaultOptions, ...userOptions };
+    const options: ServerOptions = { ...defaultOptions, ...userOptions };
+    const { default: contentAdapter } = await loadAdapter(options.adapter);
     const server = createServer(contentAdapter, options);
 
     server.start();

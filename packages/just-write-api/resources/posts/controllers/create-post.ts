@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Post } from '../posts.types';
+import { Post } from '../../../__types__';
 
 export default function createPost(req: Request, res: Response) {
   const post: Post = req.body;

@@ -73,12 +73,15 @@ Adapter middleware can expect a request object as its first parameter. The reque
 ```
 {
   method: 'PUT',
+  url: 'https://somedomain.com/api/endpoint',
+  host: 'https://somedomain.com',
+  endpoint: 'api/endpoint',
   //
   // ... etc. ...
   //
+  headers: { ... },
   params: {
     id: '012lkjd8am',
-    limit: 50,
   },
   body: {
     field: 'value',
@@ -94,7 +97,6 @@ After an adapter performs an action based on the given request, it passes result
 // again, super-WIP!
 {
   error: false, // or error obj?
-
+  data: { ... }
 }
-
 ```

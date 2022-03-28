@@ -3,14 +3,9 @@ import { json, urlencoded } from 'body-parser';
 import morgan from 'morgan';
 import cors from 'cors';
 import createRoutes from './create-routes';
+import { ServerOptions, ContentAdapter } from './__types__';
 
-export type ServerOptions = {
-  production?: boolean;
-  port: number;
-  host: string;
-};
-
-export default function (contentAdapter: any, options: ServerOptions) {
+export default function (contentAdapter: ContentAdapter, options: ServerOptions) {
   const app = express();
 
   app.disable('x-powered-by');
