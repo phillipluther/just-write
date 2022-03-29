@@ -12,9 +12,11 @@ export default async function init(userOptions = {}) {
   try {
     const options: ServerOptions = { ...defaultOptions, ...userOptions };
     const { default: contentAdapter } = await loadAdapter(options.adapter);
-    const server = createServer(contentAdapter, options);
+    const server = await createServer(contentAdapter, options);
 
-    server.start();
+    if (server) {
+      server.start();
+    }
   } catch (err) {
     //
     // additional logging
