@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "strict": false,
+    "strict": true,
     "baseUrl": ".",
     "paths": {
       "$types": ["__types__"]

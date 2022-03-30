@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export default function getPost(req: Request, res: Response, next: NextFunction) {
+export default function getPost(req: Request, res: Response, next?: NextFunction) {
   const { params } = req;
 
   if (!params.id) {

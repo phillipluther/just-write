@@ -1,8 +1,9 @@
 import { Request, RequestHandler } from 'express';
-import { CrudMethods } from './crud.types';
+import { CrudVerbs } from './crud.types';
+import { Resources } from './content.types';
 
 export type AdapterCruds = {
-  [key in CrudMethods]?: RequestHandler;
+  [key in CrudVerbs]?: RequestHandler;
 };
 
 export type AdapterRequest = Request & {
@@ -10,8 +11,5 @@ export type AdapterRequest = Request & {
 };
 
 export type ContentAdapter = {
-  posts: AdapterCruds;
-  tags: AdapterCruds;
-  pages: AdapterCruds;
-  authors: AdapterCruds;
+  [key in Resources]: AdapterCruds;
 };

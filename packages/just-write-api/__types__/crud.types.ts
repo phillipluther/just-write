@@ -1,15 +1,15 @@
-export enum CrudMethods {
-  create,
-  read,
-  update,
-  delete,
+export enum CrudVerbs {
+  CREATE = 'create',
+  READ = 'read',
+  UPDATE = 'update',
+  DELETE = 'delete',
 }
 
-export enum CrudVerbs {
-  post,
-  get,
-  put,
-  delete,
+export enum HttpVerbs {
+  CREATE = 'post',
+  READ = 'get',
+  UPDATE = 'put',
+  DELETE = 'delete',
 }
 
 export interface ReadResponse<DataObj> {

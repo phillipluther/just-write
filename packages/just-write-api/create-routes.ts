@@ -1,34 +1,53 @@
 import { Router } from 'express';
-import { ContentAdapter, Resources, CrudMethods, CrudVerbs } from './__types__';
-import { enumKeys } from './utils';
+import { ContentAdapter, Resources, HttpVerbs, CrudVerbs, AdapterCruds } from './__types__';
 
 export default async function (contentAdapter: ContentAdapter) {
   const router = Router();
-  const crudMethods = enumKeys(CrudMethods);
-  const crudVerbs = enumKeys(CrudVerbs);
-  const resources = enumKeys(Resources);
 
-  resources.forEach((resource) => {
-    crudVerbs.forEach((verb, index) => {
-      const method = crudMethods[index];
+  /**
+   * GET /resource          <--> adapter.resource.read
+   * GET /resource/:id      <--> adapter.resource.read
+   *
+   * POST /resource         <--> adapter.resource.create
+   *
+   * PUT /resource/:id      <--> adapter.resource.update
+   *
+   * UPDATE /resource/:id   <--> adapter.resource.update
+   * DELETE /resource/:id   <--> adapter.resource.delete
+   */
 
-      console.log(
-        '[just-write-api]',
-        `Creating route to ${method} ${resource} ... ${verb.toUpperCase()} /${resource}`,
-      );
-      // TODO: wtf, enums ... figure out how to glue this back together so TS knows that
-      // the ver, which came from an enum type, is a member of the enum
-      //
-      router[verb](`/${resource}`, contentAdapter[resource][method], (req, res) => {
-        res.status(200).send('OK');
-      });
-    });
+  for (let resource of Object.values(Resources)) {
+    const { default: controllers } = await import(`./resources/${resource}/controllers`);
+    const middleware = contentAdapter[resource];
+    const resourceRoute = `/${resource}`;
+    const singleResourceRoute = `/${resource}/:id`;
 
-    // wire up the "many" route ... tackle this when we sort out the enum stuff
-    router.get(`/${resource}/:id`, contentAdapter[resource].read, (req, res) => {
-      res.status(200).send('OK');
-    });
-  });
+    // create
+    router[HttpVerbs.CREATE](
+      resourceRoute,
+      middleware[CrudVerbs.CREATE],
+      controllers[CrudVerbs.CREATE],
+    );
+    // read
+    router[HttpVerbs.READ](resourceRoute, middleware[CrudVerbs.READ], controllers[CrudVerbs.READ]);
+    router[HttpVerbs.READ](
+      singleResourceRoute,
+      middleware[CrudVerbs.READ],
+      controllers[CrudVerbs.READ],
+    );
+    // update
+    router[HttpVerbs.UPDATE](
+      singleResourceRoute,
+      middleware[CrudVerbs.UPDATE],
+      controllers[CrudVerbs.UPDATE],
+    );
+    // delete
+    router[HttpVerbs.DELETE](
+      singleResourceRoute,
+      middleware[CrudVerbs.DELETE],
+      controllers[CrudVerbs.DELETE],
+    );
+  }
 
   return router;
 }
