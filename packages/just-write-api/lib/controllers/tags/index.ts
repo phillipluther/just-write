@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { CrudVerbs } from '../../../__types__';
+import { Response, NextFunction } from 'express';
+import { AdapterRequest, CrudVerbs } from '$types';
 
-const controllerStub = (req: Request, res: Response) => {
+const controllerStub = (req: AdapterRequest, res: Response, next?: NextFunction) => {
   console.log('Stubbed --|');
   res.status(200).send('Stubbed --|');
 };

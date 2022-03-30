@@ -1,5 +1,5 @@
 import { RequestHandler, Router } from 'express';
-import { ContentAdapter, Resources, HttpVerbs, CrudVerbs, AdapterCruds } from './__types__';
+import { ContentAdapter, Resources, HttpVerbs, CrudVerbs } from '$types';
 
 export default async function (contentAdapter: ContentAdapter) {
   const router = Router();
@@ -17,7 +17,7 @@ export default async function (contentAdapter: ContentAdapter) {
    */
 
   for (let resource of Object.values(Resources)) {
-    const { default: controllers } = await import(`./resources/${resource}/controllers`);
+    const { default: controllers } = await import(`./controllers/${resource}`);
     const middleware = contentAdapter[resource];
     const resourceRoute = `/${resource}`;
     const singleResourceRoute = `/${resource}/:id`;
@@ -55,7 +55,7 @@ export default async function (contentAdapter: ContentAdapter) {
 
   // 401 fallback/catch-all for anything that doesn't match
   router.use('*', (req, res) => {
-    res.status(401).end();
+    res.status(401).send('Method not supported');
   });
 
   return router;

@@ -2,8 +2,13 @@
 
 ## Endpoints
 
+Manage posts using the RESTful route + verb combinations:
+
 `GET /posts` :: requests a list of posts
-`GET /posts/:id` :: requests a single post object via its ID
+`GET /posts/:id` :: requests a single post by ID
+`POST /posts` :: creates a new post
+`PUT /posts/:id` :: update an existing post by ID
+`DELETE /posts/:id` :: delete a post with the given ID
 
 ## Structure of a Post
 

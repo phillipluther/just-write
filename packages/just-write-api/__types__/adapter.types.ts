@@ -1,5 +1,6 @@
 import { Request, RequestHandler } from 'express';
-import { CrudVerbs } from './crud.types';
+import { IncomingHttpHeaders } from 'http';
+import { CrudVerbs, HttpVerbs } from './crud.types';
 import { Resources } from './content.types';
 
 export type AdapterCruds = {
@@ -7,9 +8,25 @@ export type AdapterCruds = {
 };
 
 export type AdapterRequest = Request & {
-  adapter: 'string' | null;
+  adapter: {
+    name: string | null;
+    data: { [key: string]: any };
+  };
 };
 
 export type ContentAdapter = {
   [key in Resources]: AdapterCruds;
+};
+
+export type ContentAdapterInput = {
+  method: HttpVerbs;
+  url: string;
+  host: string;
+  endpoint: string;
+  //
+  // ... etc. ...
+  //
+  headers: IncomingHttpHeaders;
+  params: { [key: string]: string };
+  body: { [key: string]: string };
 };

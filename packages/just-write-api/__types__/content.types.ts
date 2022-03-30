@@ -1,6 +1,6 @@
 export enum Resources {
   POSTS = 'posts',
   TAGS = 'tags',
-  PAGES = 'pages',
+  // PAGES = 'pages',
   AUTHORS = 'authors',
 }

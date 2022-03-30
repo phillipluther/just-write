@@ -3,7 +3,7 @@ import { json, urlencoded } from 'body-parser';
 import morgan from 'morgan';
 import cors from 'cors';
 import createRoutes from './create-routes';
-import { ServerOptions, ContentAdapter } from './__types__';
+import { ServerOptions, ContentAdapter } from '$types';
 
 export default async function (contentAdapter: ContentAdapter, options: ServerOptions) {
   try {
