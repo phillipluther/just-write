@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { RequestHandler, Router } from 'express';
 import { ContentAdapter, Resources, HttpVerbs, CrudVerbs, AdapterCruds } from './__types__';
 
 export default async function (contentAdapter: ContentAdapter) {
@@ -25,29 +25,38 @@ export default async function (contentAdapter: ContentAdapter) {
     // create
     router[HttpVerbs.CREATE](
       resourceRoute,
-      middleware[CrudVerbs.CREATE],
+      middleware[CrudVerbs.CREATE] as RequestHandler,
       controllers[CrudVerbs.CREATE],
     );
     // read
-    router[HttpVerbs.READ](resourceRoute, middleware[CrudVerbs.READ], controllers[CrudVerbs.READ]);
+    router[HttpVerbs.READ](
+      resourceRoute,
+      middleware[CrudVerbs.READ] as RequestHandler,
+      controllers[CrudVerbs.READ],
+    );
     router[HttpVerbs.READ](
       singleResourceRoute,
-      middleware[CrudVerbs.READ],
+      middleware[CrudVerbs.READ] as RequestHandler,
       controllers[CrudVerbs.READ],
     );
     // update
     router[HttpVerbs.UPDATE](
       singleResourceRoute,
-      middleware[CrudVerbs.UPDATE],
+      middleware[CrudVerbs.UPDATE] as RequestHandler,
       controllers[CrudVerbs.UPDATE],
     );
     // delete
     router[HttpVerbs.DELETE](
       singleResourceRoute,
-      middleware[CrudVerbs.DELETE],
+      middleware[CrudVerbs.DELETE] as RequestHandler,
       controllers[CrudVerbs.DELETE],
     );
   }
+
+  // 401 fallback/catch-all for anything that doesn't match
+  router.use('*', (req, res) => {
+    res.status(401).end();
+  });
 
   return router;
 }
