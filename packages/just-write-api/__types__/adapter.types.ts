@@ -7,8 +7,12 @@ export type AdapterCruds = {
   [key in CrudVerbs]?: RequestHandler;
 };
 
+export type SourceCruds = {
+  [key in CrudVerbs]?: Function;
+};
+
 export type AdapterRequest = Request & {
-  adapter: {
+  adapter?: {
     name: string | null;
     data: { [key: string]: any };
   };
@@ -16,6 +20,10 @@ export type AdapterRequest = Request & {
 
 export type ContentAdapter = {
   [key in Resources]: AdapterCruds;
+};
+
+export type SourcePlugin = {
+  [key in Resources]: SourceCruds;
 };
 
 export type ContentAdapterInput = {

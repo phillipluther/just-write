@@ -5,7 +5,7 @@ import cors from 'cors';
 import createRoutes from './create-routes';
 import { ServerOptions, ContentAdapter } from '$types';
 
-export default async function (contentAdapter: ContentAdapter, options: ServerOptions) {
+export default async function (contentAdapter: ContentAdapter | null, options: ServerOptions) {
   try {
     const app = express();
 
@@ -16,7 +16,9 @@ export default async function (contentAdapter: ContentAdapter, options: ServerOp
     app.use(urlencoded({ extended: true }));
     app.use(morgan(options.production ? 'common' : 'dev'));
 
-    app.use(await createRoutes(contentAdapter));
+    if (contentAdapter) {
+      app.use(await createRoutes(contentAdapter));
+    }
 
     return {
       app,

@@ -4,7 +4,7 @@ const contentAdapter: AdapterCruds = Object.values(Resources).reduce(
   (acc: { [key: string]: any }, resource: string) => {
     acc[resource] = {};
     Object.values(CrudVerbs).forEach((method) => {
-      acc[resource][method] = (requestObj: ContentAdapterInput) => {
+      acc[resource][method] = async (requestObj: ContentAdapterInput) => {
         console.warn(
           '[just-write-api]',
           `No content adapter specified for ${requestObj.method.toUpperCase()} ${
