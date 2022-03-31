@@ -17,7 +17,7 @@ export default async function (contentAdapter: ContentAdapter) {
    */
 
   for (let resource of Object.values(Resources)) {
-    const { default: controllers } = await import(`./controllers/${resource}`);
+    const { default: controllers } = await import(`../controllers/${resource}`);
     const middleware = contentAdapter[resource];
     const resourceRoute = `/${resource}`;
     const singleResourceRoute = `/${resource}/:id`;
