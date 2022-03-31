@@ -11,8 +11,9 @@ import {
 
 export default async function (name?: string): Promise<ContentAdapter | null> {
   try {
+    const adapterPackage = `just-write-api-adapter-${name}`;
     const { default: sourcePlugin }: { default: SourcePlugin } = await import(
-      name || './content-adapter/content-adapter-stubs'
+      adapterPackage || './content-adapter/content-adapter-stubs'
     );
 
     if (!name) {
