@@ -28,6 +28,7 @@ export type SourcePlugin = {
 
 export type ContentAdapterInput = {
   method: HttpVerbs;
+  protocol: string;
   url: string;
   host: string;
   endpoint: string;

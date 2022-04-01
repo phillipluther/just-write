@@ -39,7 +39,8 @@ export default async function (name?: string): Promise<ContentAdapter | null> {
         ) => {
           const contentAdapterInput: ContentAdapterInput = {
             method: req.method as HttpVerbs,
-            url: req.url,
+            protocol: req.protocol,
+            url: `${req.protocol}://${req.hostname}${req.url}`,
             host: req.hostname,
             endpoint: req.path,
             headers: req.headers,
@@ -47,8 +48,8 @@ export default async function (name?: string): Promise<ContentAdapter | null> {
             body: req.body,
           };
 
-          const getSourceData = await sourcePlugin[resource][verb];
-          const data = getSourceData ? getSourceData(contentAdapterInput) : null;
+          const getSourceData = sourcePlugin[resource][verb];
+          const data = getSourceData ? await getSourceData(contentAdapterInput) : null;
 
           req.adapter = {
             name: name || null,
