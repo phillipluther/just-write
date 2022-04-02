@@ -9,17 +9,19 @@ import {
   SourcePlugin,
 } from '$types';
 
-export default async function (name?: string): Promise<ContentAdapter | null> {
+export default async function (adapterName?: string): Promise<ContentAdapter | null> {
   try {
-    const adapterPackage = `just-write-api-adapter-${name}`;
+    const adapterPackage = `just-write-api-adapter-${adapterName}`;
     const { default: sourcePlugin }: { default: SourcePlugin } = await import(
       adapterPackage || './content-adapter/content-adapter-stubs'
     );
 
-    if (!name) {
+    if (!adapterName) {
       console.warn('[just-write-api]', `No content adapter specified`);
     } else {
-      console.log(`[just-write-api] Content adapter middleware (${name}) successfully loaded`);
+      console.log(
+        `[just-write-api] Content adapter middleware (${adapterName}) successfully loaded`,
+      );
     }
 
     const contentAdapter: ContentAdapter = {
@@ -37,26 +39,35 @@ export default async function (name?: string): Promise<ContentAdapter | null> {
           res: Response,
           next: NextFunction,
         ) => {
-          const contentAdapterInput: ContentAdapterInput = {
-            method: req.method as HttpVerbs,
-            protocol: req.protocol,
-            url: `${req.protocol}://${req.hostname}${req.url}`,
-            host: req.hostname,
-            endpoint: req.path,
-            headers: req.headers,
-            params: req.params,
-            body: req.body,
-          };
+          try {
+            const contentAdapterInput: ContentAdapterInput = {
+              method: req.method as HttpVerbs,
+              protocol: req.protocol,
+              url: `${req.protocol}://${req.hostname}${req.url}`,
+              host: req.hostname,
+              endpoint: req.path,
+              headers: req.headers,
+              params: req.params,
+              body: req.body,
+            };
 
-          const getSourceData = sourcePlugin[resource][verb];
-          const data = getSourceData ? await getSourceData(contentAdapterInput) : null;
+            const getSourceData = sourcePlugin[resource][verb];
+            const data = getSourceData ? await getSourceData(contentAdapterInput) : null;
 
-          req.adapter = {
-            name: name || null,
-            data,
-          };
+            req.adapter = {
+              name: adapterName || null,
+              data,
+            };
 
-          next();
+            next();
+          } catch (err) {
+            console.log('[just-write-api]', `Error in ${adapterName} adapter`);
+            console.error(err);
+
+            // additional logging?
+
+            res.status(500).end();
+          }
         };
       }
     }
@@ -66,7 +77,7 @@ export default async function (name?: string): Promise<ContentAdapter | null> {
     //
     // logging
     //
-    console.log('[just-write-api]', `Could not load '${name}' as a content adapter`);
+    console.log('[just-write-api]', `Could not load '${adapterName}' as a content adapter`);
     console.error(err);
   }
 

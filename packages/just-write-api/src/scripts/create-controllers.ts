@@ -15,6 +15,7 @@ function handleRequest(
   const data = req.adapter?.data || {};
   res.status(status).send({ data });
 }
+
 export default function () {
   const controllers = {
     [CrudVerbs.CREATE]: (req: AdapterRequest, res: Response, next: NextFunction) =>

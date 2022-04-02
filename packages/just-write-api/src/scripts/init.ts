@@ -6,7 +6,7 @@ const defaultOptions = {
   isProd: process.env.node_env === 'production',
   host: 'http://localhost',
   port: 8001,
-  adapter: 'markdown', // <-- testing!
+  adapter: 'json', // <-- testing!
 };
 
 export default async function init(userOptions = {}) {
