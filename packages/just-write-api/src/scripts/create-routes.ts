@@ -1,5 +1,6 @@
 import { RequestHandler, Router } from 'express';
 import { ContentAdapter, Resources, HttpVerbs, CrudVerbs } from '$types';
+import createControllers from './create-controllers';
 
 export default async function (contentAdapter: ContentAdapter) {
   const router = Router();
@@ -17,7 +18,7 @@ export default async function (contentAdapter: ContentAdapter) {
    */
 
   for (let resource of Object.values(Resources)) {
-    const { default: controllers } = await import(`../controllers/${resource}`);
+    const controllers = createControllers();
     const middleware = contentAdapter[resource];
     const resourceRoute = `/${resource}`;
     const singleResourceRoute = `/${resource}/:id`;

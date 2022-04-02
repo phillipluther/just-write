@@ -1,17 +1,24 @@
 import getAllPosts from './get-all-posts';
 import getPost from './get-post';
+import createPost from './create-post';
 
 const posts = {
-  create: () => {},
-  read: (req) => {
-    if (req.params.id) {
-      getPost(req);
-    } else {
-      getAllPosts(req);
+  create: createPost,
+  read: (id, options = {}) => {
+    if (id) {
+      return getPost(id);
     }
+
+    return getAllPosts(options);
   },
-  update: () => {},
-  delete: () => {},
+  update: async function (requestObj) {
+    console.log('[json-adapter] posts.update');
+    return requestObj;
+  },
+  delete: async function (requestObj) {
+    console.log('[json-adapter] posts.delete');
+    return requestObj;
+  },
 };
 
 export default posts;

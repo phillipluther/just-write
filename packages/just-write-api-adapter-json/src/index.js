@@ -1,21 +1,7 @@
-import createPost from './posts/create-post';
+import posts from './posts';
 
 export default {
-  posts: {
-    create: createPost,
-    read: async function (requestObj) {
-      console.log('[json-adapter] posts.read');
-      return requestObj;
-    },
-    update: async function (requestObj) {
-      console.log('[json-adapter] posts.update');
-      return requestObj;
-    },
-    delete: async function (requestObj) {
-      console.log('[json-adapter] posts.delete');
-      return requestObj;
-    },
-  },
+  posts,
   tags: {
     create: async function (requestObj) {
       console.log('[json-adapter] tags.create');
