@@ -1,4 +1,10 @@
-type Post = {
+export enum Resources {
+  POSTS = 'posts',
+  TAGS = 'tags',
+  AUTHORS = 'authors',
+}
+
+export type Post = {
   id: string;
   title: string;
   summary?: string;
@@ -12,5 +18,3 @@ type Post = {
     [key: string]: any;
   };
 };
-
-export { Post };

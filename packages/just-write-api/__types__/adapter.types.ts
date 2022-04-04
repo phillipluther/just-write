@@ -1,17 +1,18 @@
-import { Request, RequestHandler } from 'express';
+import { Request, RequestHandler, Response, NextFunction } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { CrudVerbs, HttpVerbs } from './crud.types';
-import { Resources } from './content.types';
+import { Resources } from './resource.types';
 
 export type AdapterCruds = {
-  [key in CrudVerbs]?: RequestHandler;
+  // TODO: too loose;
+  [key in CrudVerbs]?: Function;
 };
 
 export type SourceCruds = {
   [key in CrudVerbs]?: Function;
 };
 
-export type AdapterRequest = Request & {
+export type ContentAdapterRequest = Request & {
   adapter?: {
     name: string | null;
     data: { [key: string]: any };

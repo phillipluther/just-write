@@ -1,13 +1,5 @@
-import { Response, NextFunction } from 'express';
-import {
-  AdapterRequest,
-  ContentAdapter,
-  ContentAdapterInput,
-  CrudVerbs,
-  HttpVerbs,
-  Resources,
-  SourcePlugin,
-} from '$types';
+import { Request, Response, NextFunction } from 'express';
+import { ContentAdapterRequest, ContentAdapter, CrudVerbs, Resources, SourcePlugin } from '$types';
 
 export default async function (adapterName?: string): Promise<ContentAdapter | null> {
   try {
@@ -18,15 +10,6 @@ export default async function (adapterName?: string): Promise<ContentAdapter | n
       // additional logging?
 
       res.status(500).end();
-    }
-
-    function addAdapterData(req: AdapterRequest, next: NextFunction) {
-      req.adapter = {
-        name: adapterName || null,
-        data: req.adapter?.data || {},
-      };
-
-      next();
     }
 
     const adapterPackage = `just-write-api-adapter-${adapterName}`;
@@ -52,7 +35,7 @@ export default async function (adapterName?: string): Promise<ContentAdapter | n
       contentAdapter[resource] = {};
 
       contentAdapter[resource][CrudVerbs.CREATE] = async (
-        req: AdapterRequest,
+        req: ContentAdapterRequest,
         res: Response,
         next: NextFunction,
       ) => {
@@ -72,7 +55,7 @@ export default async function (adapterName?: string): Promise<ContentAdapter | n
       };
 
       contentAdapter[resource][CrudVerbs.READ] = async (
-        req: AdapterRequest,
+        req: ContentAdapterRequest,
         res: Response,
         next: NextFunction,
       ) => {
@@ -92,7 +75,7 @@ export default async function (adapterName?: string): Promise<ContentAdapter | n
       };
 
       contentAdapter[resource][CrudVerbs.UPDATE] = async (
-        req: AdapterRequest,
+        req: ContentAdapterRequest,
         res: Response,
         next: NextFunction,
       ) => {
@@ -112,7 +95,7 @@ export default async function (adapterName?: string): Promise<ContentAdapter | n
       };
 
       contentAdapter[resource][CrudVerbs.DELETE] = async (
-        req: AdapterRequest,
+        req: ContentAdapterRequest,
         res: Response,
         next: NextFunction,
       ) => {
